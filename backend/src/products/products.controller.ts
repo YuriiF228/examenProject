@@ -1,17 +1,21 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
-import { ProductsService } from './products.service';
+import { Body, Controller, Get, Post } from '@nestjs/common'
+import { ProductsService } from './products.service'
 
 @Controller('products')
 export class ProductsController {
-  constructor(private service: ProductsService) {}
+  constructor(private productsService: ProductsService) {}
+
+@Post()
+create(
+  @Body()
+  body: { name: string; price: number; quantity: number },
+) {
+  return this.productsService.create(body)
+}
+
 
   @Get()
-  getAll() {
-    return this.service.findAll();
-  }
-
-  @Post()
-  create(@Body() body: { name: string; price: number }) {
-    return this.service.create(body.name, body.price);
+  findAll() {
+    return this.productsService.findAll()
   }
 }

@@ -16,24 +16,18 @@ exports.ProductsController = void 0;
 const common_1 = require("@nestjs/common");
 const products_service_1 = require("./products.service");
 let ProductsController = class ProductsController {
-    service;
-    constructor(service) {
-        this.service = service;
-    }
-    getAll() {
-        return this.service.findAll();
+    productsService;
+    constructor(productsService) {
+        this.productsService = productsService;
     }
     create(body) {
-        return this.service.create(body.name, body.price);
+        return this.productsService.create(body);
+    }
+    findAll() {
+        return this.productsService.findAll();
     }
 };
 exports.ProductsController = ProductsController;
-__decorate([
-    (0, common_1.Get)(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
-], ProductsController.prototype, "getAll", null);
 __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
@@ -41,6 +35,12 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], ProductsController.prototype, "create", null);
+__decorate([
+    (0, common_1.Get)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], ProductsController.prototype, "findAll", null);
 exports.ProductsController = ProductsController = __decorate([
     (0, common_1.Controller)('products'),
     __metadata("design:paramtypes", [products_service_1.ProductsService])

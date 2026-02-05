@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { Product } from './products.schema';
+import { Injectable } from '@nestjs/common'
+import { InjectModel } from '@nestjs/mongoose'
+import { Model } from 'mongoose'
+import { Product } from './products.schema'
 
 @Injectable()
 export class ProductsService {
@@ -10,11 +10,12 @@ export class ProductsService {
     private productModel: Model<Product>,
   ) {}
 
-  findAll() {
-    return this.productModel.find();
-  }
+    create(data: { name: string; price: number; quantity: number }) {
+      return this.productModel.create(data)
+    }
 
-  create(name: string, price: number) {
-    return this.productModel.create({ name, price });
+
+  findAll() {
+    return this.productModel.find()
   }
 }

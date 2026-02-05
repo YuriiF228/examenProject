@@ -10,7 +10,7 @@ import { ProductsController } from './products.controller';
       { name: Product.name, schema: ProductSchema },
     ]),
   ],
-  providers: [ProductsService],
   controllers: [ProductsController],
+  providers: [ProductsService],
 })
 export class ProductsModule {}

@@ -22,8 +22,8 @@ exports.ProductsModule = ProductsModule = __decorate([
                 { name: products_schema_1.Product.name, schema: products_schema_1.ProductSchema },
             ]),
         ],
-        providers: [products_service_1.ProductsService],
         controllers: [products_controller_1.ProductsController],
+        providers: [products_service_1.ProductsService],
     })
 ], ProductsModule);
 //# sourceMappingURL=products.module.js.map

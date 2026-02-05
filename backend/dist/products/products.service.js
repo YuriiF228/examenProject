@@ -22,11 +22,11 @@ let ProductsService = class ProductsService {
     constructor(productModel) {
         this.productModel = productModel;
     }
+    create(data) {
+        return this.productModel.create(data);
+    }
     findAll() {
         return this.productModel.find();
-    }
-    create(name, price) {
-        return this.productModel.create({ name, price });
     }
 };
 exports.ProductsService = ProductsService;

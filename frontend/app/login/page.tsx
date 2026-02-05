@@ -1,48 +1,48 @@
 'use client'
-import { useState } from 'react';
+
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [message, setMessage] = useState('');
+  const router = useRouter()
+  const [error, setError] = useState('')
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const login = async (e: React.FormEvent) => {
+    e.preventDefault()
+    const form = e.target as any
 
     const res = await fetch('http://localhost:4000/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
-    });
+      body: JSON.stringify({
+        email: form.email.value,
+        password: form.password.value,
+      }),
+    })
 
-    const data = await res.json();
-
-    if (res.ok) {
-      console.log(`${data.accessToken}`);
-      localStorage.setItem('token', data.accessToken);
-    } else {
-      setMessage(data.message);
+    if (!res.ok) {
+      setError('Невірний email пароль')
+      return
     }
-  };
+
+    const data = await res.json()
+
+    localStorage.setItem('token', data.accessToken)
+
+    router.push('/')
+  }
 
   return (
-    <form onSubmit={handleLogin}>
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={e => setEmail(e.target.value)}
-        required
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={e => setPassword(e.target.value)}
-        required
-      />
-      <button type="submit">Login</button>
-      <p>{message}</p>
-    </form>
-  );
+    <div>
+      <h1>Вхід</h1>
+
+      <form onSubmit={login}>
+        <input name="email" type="email" placeholder="Email" required />
+        <input name="password" type="password" placeholder="Пароль" required />
+        <button>Увійти</button>
+      </form>
+
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+    </div>
+  )
 }

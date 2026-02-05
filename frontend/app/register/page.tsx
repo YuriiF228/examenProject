@@ -1,56 +1,40 @@
 'use client'
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 
-export default function RegisterPage() {
-  const router = useRouter();
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [message, setMessage] = useState('');
+export default function Dashboard() {
+  const router = useRouter()
+  const [products, setProducts] = useState([])
 
-  const handleRegister = async (e: React.FormEvent) => {
-    e.preventDefault();
+  useEffect(() => {
+    const token = localStorage.getItem('token')
 
-    const res = await fetch('http://localhost:4000/auth/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
-    });
-
-    const data = await res.json();
-
-    if (res.ok) {
-      console.log('зареєстрований');
-      
-      // затримка при перенаправлені
-      setTimeout(() => {
-        router.push('/login');
-      }, 2000);
-    } else {
-      setMessage(data.message);
+    if (!token) {
+      router.push('/login')
+      return
     }
-  };
+
+    fetch('http://localhost:4000/products', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then(res => res.json())
+      .then(data => setProducts(data))
+  }, [])
 
   return (
-    <form onSubmit={handleRegister}>
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={e => setEmail(e.target.value)}
-        required
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={e => setPassword(e.target.value)}
-        required
-      />
-      <button type="submit">Register</button>
+    <div>
+      <h1>Dashboard — Товари</h1>
 
-      <p>{message}</p>
-    </form>
-  );
+      <ul>
+        {products.map((p: any) => (
+          <li key={p._id}>
+            {p.name} — {p.price} $
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
 }

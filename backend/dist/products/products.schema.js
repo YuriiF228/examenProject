@@ -15,6 +15,8 @@ const mongoose_2 = require("mongoose");
 let Product = class Product extends mongoose_2.Document {
     name;
     price;
+    quantity;
+    article;
 };
 exports.Product = Product;
 __decorate([
@@ -25,8 +27,16 @@ __decorate([
     (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", Number)
 ], Product.prototype, "price", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true, min: 0 }),
+    __metadata("design:type", Number)
+], Product.prototype, "quantity", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], Product.prototype, "article", void 0);
 exports.Product = Product = __decorate([
-    (0, mongoose_1.Schema)()
+    (0, mongoose_1.Schema)({ timestamps: true })
 ], Product);
 exports.ProductSchema = mongoose_1.SchemaFactory.createForClass(Product);
 //# sourceMappingURL=products.schema.js.map
